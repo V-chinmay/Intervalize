@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="?attr/actionBarSize"
+    android:orientation="horizontal"
+    android:background="@color/darkishgreenlite"
+    >
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_gravity="center"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
+>
+        <TextView
+            android:id="@+id/hh_disp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="30sp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:fontFamily="sans-serif-thin"
+            android:textColor="@color/teal_200"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="30sp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:fontFamily="sans-serif-thin"
+            android:textColor="@color/teal_200"
+            android:text=" : "
+            />
+        <TextView
+            android:id="@+id/mm_disp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="30sp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:fontFamily="sans-serif-thin"
+            android:textColor="@color/teal_200"
+            />
+        <TextView
+            android:id="@+id/ss_disp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/teal_200"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:fontFamily="sans-serif-thin"
+            />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/labeldisp"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+
+        android:layout_height="wrap_content"
+        android:textColor="@color/teal_200"
+        android:gravity="center_horizontal"
+
+        android:layout_gravity="center_vertical"
+
+        android:fontFamily="sans-serif-thin"
+        />
+
+        <ImageButton
+            android:id="@+id/deletebutt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:layout_weight="0.25"
+            android:src="@drawable/ic_delete_slot"
+            android:layout_gravity="center"
+            />
+        <ImageButton
+            android:id="@+id/editbutt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.25"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_edit_slot"
+            android:layout_gravity="center"
+            />
+
+
+
+
+</LinearLayout>

@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/dialogmain"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:background="@color/darkishgreen"
+    >
+
+    <TextView
+        android:id="@+id/dialog_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="24sp"
+
+        android:text="@string/set_time_dialog"
+        android:textColor="@color/teal_200"
+        android:layout_marginBottom="20sp"
+        android:layout_marginTop="10sp"
+    />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                >
+                <TextView
+                    android:layout_above="@id/dialog_hour"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/hours"
+                    android:layout_gravity="center"
+                    android:textColor="@color/teal_200"
+                    />
+                <NumberPicker
+                        android:id="@+id/dialog_hour"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:theme="@style/numberpicker"
+                        android:layout_gravity="center"
+                        />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+
+                android:layout_weight="1"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/minutes"
+                    android:layout_gravity="center"
+                    android:textColor="@color/teal_200"
+                    />
+
+                <NumberPicker
+                        android:id="@+id/dialog_minute"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:theme="@style/numberpicker"
+                        android:layout_gravity="center"
+
+                        />
+
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                >
+                <TextView
+                    android:id="@+id/hh"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/seconds"
+                    android:layout_gravity="center"
+                    android:textColor="@color/teal_200"
+                    />
+                <NumberPicker
+                    android:id="@+id/dialog_second"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:theme="@style/numberpicker"
+                />
+            </LinearLayout>
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/label"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/label"
+        android:layout_gravity="end"
+        android:gravity="center_horizontal"
+        android:theme="@style/numberpicker"
+        android:inputType="textAutoComplete"
+        android:cursorVisible="false"
+        />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
+        <Button
+            android:id="@+id/positive_button"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:text="@string/set"
+            android:textColor="@color/teal_200"
+            android:layout_gravity="center"
+            android:gravity="center_horizontal"
+            />
+        <Button
+            android:id="@+id/negative_button"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:textColor="@color/teal_200"
+            android:text="@string/cancel"
+            android:layout_gravity="center"
+            android:gravity="center_horizontal"
+            />
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">intervalize</string>
+    <string name="add_routine_fab">Add routine</string>
+    <string name="add_slot">Add Slot</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="set_time_dialog">Set Time</string>
+    <string name="set">Set</string>
+    <string name="cancel">Cancel</string>
+    <string name="hours">HH</string>
+    <string name="minutes">MM</string>
+    <string name="seconds">SS</string>
+    <string name="label">LABEL</string>
+</resources>
