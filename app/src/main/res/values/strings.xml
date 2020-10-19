@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">intervalize</string>
+    <string name="app_name">Intervalize</string>
     <string name="add_routine_fab">Add routine</string>
     <string name="add_slot">Add Slot</string>
     <!-- TODO: Remove or change this placeholder text -->
@@ -11,4 +11,5 @@
     <string name="minutes">MM</string>
     <string name="seconds">SS</string>
     <string name="label">LABEL</string>
+    <string name="enter_plan_name">Enter Plan Name</string>
 </resources>

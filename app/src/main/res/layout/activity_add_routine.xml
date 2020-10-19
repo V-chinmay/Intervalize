@@ -8,6 +8,15 @@
     android:background="@color/darkishgreen"
     tools:context=".AddRoutine">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark"
+        app:title="@string/app_name"
+        app:titleTextColor="@color/teal_200"
+        />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/slots_recycler"
         android:layout_width="match_parent"
@@ -25,6 +34,7 @@
         android:src="@drawable/ic_add_butt"
         android:layout_gravity="bottom|center_horizontal"
         android:onClick="onAddSlot"
+        android:backgroundTint="@color/darkishgreenlite"
         />
 
 </LinearLayout>

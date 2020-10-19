@@ -8,6 +8,15 @@
     android:background="@color/darkishgreen"
     tools:context=".MainActivity">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        app:title="@string/app_name"
+        app:titleTextColor="@color/teal_200"
+        />
+
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/routinelist"
         android:layout_width="match_parent"
@@ -24,5 +33,6 @@
         android:src="@drawable/ic_add_butt"
         android:layout_gravity="bottom|center_horizontal"
         android:onClick="addNewRoutine"
+        android:backgroundTint="@color/darkishgreenlite"
         />
 </LinearLayout>

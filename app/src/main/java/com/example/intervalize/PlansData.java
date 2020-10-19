@@ -10,6 +10,8 @@ public class PlansData extends SQLiteOpenHelper {
 
     static String  name = "PlansData";
     static int version = 1;
+    public static String MAINTABLE = "PLANS";
+    public static String ENTRYNAME = "table_name";
 
     public PlansData(@Nullable Context context) {
         super(context, name, null, version);
@@ -18,6 +20,9 @@ public class PlansData extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
 
+        db.execSQL("Create table "+  MAINTABLE + "(" + "_id INTEGER Primary key autoincrement" +
+                "," + ENTRYNAME + " Text" +
+                ");");
     }
 
     @Override
