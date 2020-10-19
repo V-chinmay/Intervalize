@@ -28,6 +28,8 @@ public class AddRoutine extends AppCompatActivity implements RecyclerAdap.Listen
     public  static  RecyclerView recyclerView = null;
     private GetNamePromptFragment getNamePromptFragment;
     private  String TAG = this.toString();
+    PlansData plansData;
+    SQLiteDatabase db;
 
 
     @Override
@@ -86,10 +88,9 @@ public class AddRoutine extends AppCompatActivity implements RecyclerAdap.Listen
     {
         if(recyclerAdap.slots.size()>0)
         {
-
-            PlansData plansData = new PlansData(this);
-
-            SQLiteDatabase db = plansData.getWritableDatabase();
+            Integer totalPlanTime = 0;
+            plansData = new PlansData(this);
+            db = plansData.getWritableDatabase();
 
             db.execSQL("CREATE TABLE " + planName + "("
                             +"_id INTEGER PRIMARY KEY AUTOINCREMENT" +
@@ -107,14 +108,22 @@ public class AddRoutine extends AppCompatActivity implements RecyclerAdap.Listen
                     contentValues.put("MM",Integer.valueOf(slot[1]));
                     contentValues.put("SS",Integer.valueOf(slot[2]));
                     contentValues.put("LABEL",slot[3]);
+                    totalPlanTime+=(Integer.valueOf(slot[0])*3600 + Integer.valueOf(slot[1])*60 + Integer.valueOf(slot[2]));
+
                     Log.i(TAG, "addPlanToDB: adding " + slot[0] +  ":" +  slot[1] + ":" +slot[2] + ":" + slot[3] );
                     db.insert(planName, null ,contentValues);
             }
+
+            String finalTotalTime = String.format("%d:%d:%d",( (totalPlanTime)/3600),((((totalPlanTime)%3600))/60),(((((totalPlanTime)%3600))%60)));
+
             ContentValues maintableentry =  new ContentValues();
-            maintableentry.put(PlansData.ENTRYNAME,planName);
-            db.insert(PlansData.MAINTABLE,null,maintableentry);
-            Log.i(TAG, "addPlanToDB: added plan to db " );
-            db.close();
+            maintableentry.put(PlansData.PLANNAME,planName);
+            maintableentry.put(PlansData.PLANTIME,finalTotalTime);
+
+
+            db.insert(PlansData.MAINTABLENAME,null,maintableentry);
+            Log.i(TAG, "addPlanToDB: added plan to db- table name is  "+ planName + "Total time is " + finalTotalTime);
+
         }
         else
         {
@@ -152,6 +161,13 @@ public class AddRoutine extends AppCompatActivity implements RecyclerAdap.Listen
             getNamePromptFragment.dismiss();
         }
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        db.close();
+        plansData.close();
     }
 
     @Override
