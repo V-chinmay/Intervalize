@@ -12,4 +12,9 @@
     <string name="seconds">SS</string>
     <string name="label">LABEL</string>
     <string name="enter_plan_name">Enter Plan Name</string>
+    <string name="recycler_height" >200dp</string>
+
+
+<!--    dimesions-->
+    <dimen name="recycler_height" >75dp</dimen>
 </resources>

@@ -1,71 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="?attr/actionBarSize"
-    android:orientation="horizontal"
-    android:background="@color/darkishgreenlite"
+
+
+<androidx.cardview.widget.CardView xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/recycler_height"
+    app:cardBackgroundColor="@color/grey"
+    app:cardElevation="10sp"
+    android:layout_margin="2sp"
+    app:cardCornerRadius="3sp"
+
     >
-
     <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:layout_gravity="center"
-        android:gravity="center_horizontal"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/recycler_height"
+        android:background="@drawable/recycler_global_background"
         android:orientation="horizontal"
->
-        <TextView
-            android:id="@+id/hh_disp"
-            android:layout_width="wrap_content"
+        android:layout_gravity="center"
+
+        >
+
+        <LinearLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textSize="30sp"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal"
+            >
+            <TextView
+                android:id="@+id/hh_disp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="30sp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:fontFamily="sans-serif-thin"
+                android:textColor="@color/darkishwhite"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="30sp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:fontFamily="sans-serif-thin"
+                android:textColor="@color/darkishwhite"
+                android:text=" : "
+                />
+            <TextView
+                android:id="@+id/mm_disp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="30sp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:fontFamily="sans-serif-thin"
+                android:textColor="@color/darkishwhite"
+                />
+            <TextView
+                android:id="@+id/ss_disp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/darkishwhite"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:fontFamily="sans-serif-thin"
+                />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/labeldisp"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:fontFamily="sans-serif-thin"
-            android:textColor="@color/teal_200"
-            />
 
-        <TextView
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="30sp"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:fontFamily="sans-serif-thin"
-            android:textColor="@color/teal_200"
-            android:text=" : "
-            />
-        <TextView
-            android:id="@+id/mm_disp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="30sp"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:fontFamily="sans-serif-thin"
-            android:textColor="@color/teal_200"
-            />
-        <TextView
-            android:id="@+id/ss_disp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/teal_200"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textColor="@color/darkishwhite"
+            android:gravity="center_horizontal"
+
+            android:layout_gravity="center_vertical"
+
             android:fontFamily="sans-serif-thin"
             />
-    </LinearLayout>
-
-    <TextView
-        android:id="@+id/labeldisp"
-        android:layout_width="0dp"
-        android:layout_weight="1"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-
-        android:layout_height="wrap_content"
-        android:textColor="@color/teal_200"
-        android:gravity="center_horizontal"
-
-        android:layout_gravity="center_vertical"
-
-        android:fontFamily="sans-serif-thin"
-        />
 
         <ImageButton
             android:id="@+id/deletebutt"
@@ -85,8 +101,7 @@
             android:src="@drawable/ic_edit_slot"
             android:layout_gravity="center"
             />
+    </LinearLayout>
 
+</androidx.cardview.widget.CardView>
 
-
-
-</LinearLayout>

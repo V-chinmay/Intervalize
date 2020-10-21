@@ -1,16 +1,12 @@
 package com.example.intervalize;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.ContentValues;
-import android.content.Context;
-import android.content.LocusId;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,9 +14,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
-import android.widget.Toolbar;
 
-import java.sql.SQLData;
+
 
 public class AddRoutine extends AppCompatActivity implements RecyclerAdap.Listeners,GetNamePromptFragment.Listeners {
 
@@ -28,6 +23,12 @@ public class AddRoutine extends AppCompatActivity implements RecyclerAdap.Listen
     public  static  RecyclerView recyclerView = null;
     private GetNamePromptFragment getNamePromptFragment;
     private  String TAG = this.toString();
+    public static String DB_COLUMN_0 = "LABEL";
+    public static String DB_COLUMN_1 = "HH";
+    public static String DB_COLUMN_2 = "MM";
+    public static String DB_COLUMN_3 = "SS";
+
+
     PlansData plansData;
     SQLiteDatabase db;
 
@@ -43,12 +44,12 @@ public class AddRoutine extends AppCompatActivity implements RecyclerAdap.Listen
         toolbar.inflateMenu(R.menu.toolbar_add_routine);
 
 
-        recyclerAdap = new RecyclerAdap(this);
+        recyclerAdap = new RecyclerAdap(this,R.layout.recycler_lay);
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this,DividerItemDecoration.VERTICAL);
-        dividerItemDecoration.setDrawable(getResources().getDrawable(R.drawable.recycler_background));
+//        dividerItemDecoration.setDrawable(getResources().getDrawable(R.drawable.recycler_background));
 
         recyclerView = (RecyclerView) findViewById(R.id.slots_recycler);
-        recyclerView.addItemDecoration(dividerItemDecoration);
+//        recyclerView.addItemDecoration(dividerItemDecoration);
         recyclerView.setAdapter(recyclerAdap);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -94,10 +95,10 @@ public class AddRoutine extends AppCompatActivity implements RecyclerAdap.Listen
 
             db.execSQL("CREATE TABLE " + planName + "("
                             +"_id INTEGER PRIMARY KEY AUTOINCREMENT" +
-                            ",LABEL TEXT" +
-                            ",HH INT" +
-                            ",MM INT" +
-                            ",SS INT" +
+                            "," + DB_COLUMN_0 + " TEXT" +
+                            "," + DB_COLUMN_1 + " INT" +
+                            "," + DB_COLUMN_2 + " INT" +
+                            "," + DB_COLUMN_3 + " INT" +
                             ");"
                     );
 
@@ -123,7 +124,6 @@ public class AddRoutine extends AppCompatActivity implements RecyclerAdap.Listen
 
             db.insert(PlansData.MAINTABLENAME,null,maintableentry);
             Log.i(TAG, "addPlanToDB: added plan to db- table name is  "+ planName + "Total time is " + finalTotalTime);
-
         }
         else
         {
@@ -165,9 +165,21 @@ public class AddRoutine extends AppCompatActivity implements RecyclerAdap.Listen
 
     @Override
     protected void onDestroy() {
+
         super.onDestroy();
-        db.close();
-        plansData.close();
+
+    }
+
+    @Override
+    protected void onStop() {
+        if(db!=null)
+        {
+            db.close();
+            plansData.close();
+            Log.i(TAG, "onStop: closed dbs");
+        }
+
+        super.onStop();
     }
 
     @Override

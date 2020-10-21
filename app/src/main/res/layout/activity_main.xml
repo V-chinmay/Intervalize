@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/darkishgreen"
+    android:background="@color/grey"
     tools:context=".MainActivity">
 
     <androidx.appcompat.widget.Toolbar
@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         app:title="@string/app_name"
-        app:titleTextColor="@color/teal_200"
+        app:titleTextColor="@color/darkishwhite"
         />
 
 
@@ -33,6 +33,6 @@
         android:src="@drawable/ic_add_butt"
         android:layout_gravity="bottom|center_horizontal"
         android:onClick="addNewRoutine"
-        android:backgroundTint="@color/darkishgreenlite"
+        android:backgroundTint="@color/darkishwhite"
         />
 </LinearLayout>
