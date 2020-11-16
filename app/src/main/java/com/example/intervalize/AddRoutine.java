@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.ContentValues;
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
@@ -45,6 +46,8 @@ public class AddRoutine extends AppCompatActivity implements RecyclerAdap.Listen
 
 
         recyclerAdap = new RecyclerAdap(this,R.layout.recycler_lay);
+
+
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this,DividerItemDecoration.VERTICAL);
 //        dividerItemDecoration.setDrawable(getResources().getDrawable(R.drawable.recycler_background));
 

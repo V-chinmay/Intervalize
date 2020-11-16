@@ -7,9 +7,11 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -23,22 +25,20 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class StartPlanActivity extends AppCompatActivity {
+public class StartPlanActivity extends AppCompatActivity implements RecyclerAdap.AfterTimeOut,PausePromptFragment.Listeners{
 
     public String selectedPlan ;
-
     private String TAG =this.toString();
     public static Map<String,int[]> slotslabelntime = new LinkedHashMap<String,int[]>();
 
     public static  String[] slotsLabels;
     private  RecyclerView recyclerView;
 
-
-
     public  static String EXTRA_PLAN_NAME = "planname";
     private  PlansData plansData;
     private SQLiteDatabase database;
     private Cursor cursor;
+    MediaPlayer mediaPlayer ;
 
     private  RecyclerAdap recyclerAdap = new RecyclerAdap(this,R.layout.recycler_layout_start_plan);
 
@@ -75,9 +75,8 @@ public class StartPlanActivity extends AppCompatActivity {
         setContentView(R.layout.activity_start_plan);
 
 
-
-
         selectedPlan = getIntent().getStringExtra(EXTRA_PLAN_NAME);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarstartplan);
         toolbar.setTitle(selectedPlan);
         toolbar.inflateMenu(R.menu.menu_start_plan);
@@ -91,13 +90,9 @@ public class StartPlanActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(recyclerAdap);
 
+
         setSupportActionBar(toolbar);
-
-
-
     }
-
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -112,8 +107,11 @@ public class StartPlanActivity extends AppCompatActivity {
 
         if(item.getItemId()==R.id.pause_butt)
         {
-            PausePromptFragment pausePromptFragment = new PausePromptFragment();
+            recyclerAdap.paused=true;
+            PausePromptFragment pausePromptFragment = new PausePromptFragment(this);
             pausePromptFragment.show(getSupportFragmentManager(),"resumeprompt");
+            Log.i(TAG, "onOptionsItemSelected: resume prompt being shown");
+
         }
         return true;
     }
@@ -122,9 +120,17 @@ public class StartPlanActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         readAllSlots(selectedPlan);
-        Handler handler = new Handler();
+        mediaPlayer = MediaPlayer.create(this,R.raw.beep);
+        if(RecyclerAdap.presentPosition==0 | RecyclerAdap.restarted)
+        {
+            moveToPostion();
+        }
+    }
 
 
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 
     @Override
@@ -135,9 +141,71 @@ public class StartPlanActivity extends AppCompatActivity {
             cursor.close();
             plansData.close();
             Log.i(TAG, "onStop: closed dbs");
-
         }
 
         super.onStop();
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        RecyclerAdap.restarted=true;
+        if(RecyclerAdap.presentPosition!=0)
+        {
+            RecyclerAdap.presentPosition-=1;
+        }
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void afterTimeOut() {
+        mediaPlayer.seekTo(0);
+        mediaPlayer.start();
+        moveToPostion();
+    }
+
+    private  void moveToPostion() {
+        Log.i(TAG, "afterTimeOut: present position is " + RecyclerAdap.presentPosition);
+        if (RecyclerAdap.presentPosition < slotslabelntime.size()) {
+            recyclerView.findViewHolderForLayoutPosition(RecyclerAdap.presentPosition);
+            recyclerView.post(new Runnable() {
+                @Override
+                public void run() {
+                    if (recyclerView.findViewHolderForAdapterPosition(RecyclerAdap.presentPosition) != null)
+                    {
+                        recyclerView.findViewHolderForAdapterPosition(RecyclerAdap.presentPosition).itemView.performClick();
+                    }
+                    else
+                        {
+                        recyclerView.postDelayed(this, 50);
+                    }
+                }
+            });
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        mediaPlayer.release();
+        if(database!=null )
+        {
+            database.close();
+            cursor.close();
+            plansData.close();
+            Log.i(TAG, "onStop: closed dbs");
+
+        }
+        super.onDestroy();
+    }
+
+    @Override
+    public void onResumePressed() {
+        recyclerAdap.paused=false;
+    }
+
+    @Override
+    public void onEndPressed() {
+        RecyclerAdap.presentPosition=0;
+        finish();
+
     }
 }

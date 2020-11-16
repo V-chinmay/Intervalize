@@ -53,10 +53,12 @@ public class TimePromptFragment extends DialogFragment {
     public int selected_hours = 0;
     public int  selected_minutes = 0;
     public int selected_seconds = 0;
+    public String selected_label = " ";
+
     String SAVE_HOURS ="hours";
     String SAVE_MINUTES ="minutes";
     String SAVE_SECONDS ="seconds";
-    String selected_label = " ";
+
     ArrayList<String[]> plans = new ArrayList<String[]>();
     EditText editText;
     Integer selected_id = 0;

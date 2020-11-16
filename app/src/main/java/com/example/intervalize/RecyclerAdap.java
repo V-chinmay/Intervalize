@@ -3,6 +3,8 @@ package com.example.intervalize;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 
+import android.content.Intent;
+import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,17 +17,26 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 public class RecyclerAdap extends RecyclerView.Adapter<RecyclerAdap.viewholder> {
 
     public String TAG = this.toString();
+    public static String SLOTPROGRESS = "slotprogress";
+    public static  int presentPosition = 0 ;
+    public int presentSettime = 0;
     public ArrayList<String[]> slots = new ArrayList<String[]>();
+    public static   int slotProgress[];
     Activity parentActivity;
     Listeners listeners;
     ListenersMain listenersMain;
+    AfterTimeOut afterTimeOut;
     int recyclerLayoutid;
+    public boolean paused = false;
+    public static boolean restarted = false;
+
 
 
 
@@ -38,6 +49,11 @@ public class RecyclerAdap extends RecyclerView.Adapter<RecyclerAdap.viewholder> 
     interface ListenersMain
     {
         void onSelectedPlan( String selectedPlan);
+    }
+
+    interface AfterTimeOut
+    {
+        void afterTimeOut();
     }
 
     public RecyclerAdap(Activity parent, int layoutid)
@@ -56,10 +72,9 @@ public class RecyclerAdap extends RecyclerView.Adapter<RecyclerAdap.viewholder> 
                 Log.i(TAG, "RecyclerAdap: using main layout" );
                 break;
             case R.layout.recycler_layout_start_plan:
+                afterTimeOut = (AfterTimeOut) parent;
                 Log.i(TAG, "RecyclerAdap: using start_plan layout" );
                 break;
-
-
         }
     }
 
@@ -67,12 +82,22 @@ public class RecyclerAdap extends RecyclerView.Adapter<RecyclerAdap.viewholder> 
     @Override
     public viewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(recyclerLayoutid,parent,false);
-        return new viewholder(view);
+        viewholder vh  = new viewholder(view);
+        if(vh==null)
+        {
+            Log.i(TAG, "onCreateViewHolder: vh is null ");
+        }
+        else 
+        {
+            Log.i(TAG, "onCreateViewHolder: vh is not null");
+        }
+        return vh;
     }
 
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull viewholder holder, int position) {
+
         switch(recyclerLayoutid)
         {
             case R.layout.recycler_lay:
@@ -108,23 +133,71 @@ public class RecyclerAdap extends RecyclerView.Adapter<RecyclerAdap.viewholder> 
 
             case R.layout.recycler_layout_start_plan:
                 int[] hhmmss = StartPlanActivity.slotslabelntime.get(StartPlanActivity.slotsLabels[position]);
+
                 Log.i(TAG, "onBindViewHolder: slot name " + StartPlanActivity.slotsLabels[position] + " : " + Arrays.toString(hhmmss));
                 holder.labeldisp.setText(StartPlanActivity.slotsLabels[position]);
-                holder.hh_disp.setText(String.format("%d:%d:%d",hhmmss[0],hhmmss[1],hhmmss[2]));
-                Handler handler = new Handler();
+                holder.hh_disp.setText(String.format("%02d:%02d:%02d",hhmmss[0],hhmmss[1],hhmmss[2]));
 
-                handler.post(new Runnable() {
+                holder.mainView.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void run() {
-                        holder.progressBar.incrementProgressBy(1);
-                        handler.postDelayed(this,1000);
+                    public void onClick(View v) {
 
+                        if(!restarted)
+                        {
+                            slotProgress[position] = (hhmmss[0] * 3600) + (hhmmss[1] * 60) + (hhmmss[2]);
+                            presentSettime = slotProgress[position];
+                            holder.progressBar.setMax(slotProgress[position]);
+                        }
+                        else
+                        {
+                            restarted=false;
+                        }
+
+                        Handler handler = new Handler();
+
+                        holder.mainView.setClickable(false);
+                        handler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                Log.i(TAG, "onBindViewHolder: after runnable set time for " + StartPlanActivity.slotsLabels[position] +slotProgress[position]);
+
+                                if(slotProgress[position] >0)
+                                {
+                                    handler.postDelayed(this,1000);
+
+                                    if(!paused)
+                                    {
+                                        slotProgress[position]--;
+                                        int hours =(slotProgress[position]/3600);
+                                        int minutes=((slotProgress[position]%3600)/60);
+                                        int seconds=((slotProgress[position]%3600)%60);
+
+                                        holder.hh_disp.setText(String.format("%02d:%02d:%02d",hours,minutes,seconds));
+                                        holder.progressBar.setProgress(presentSettime - slotProgress[position]);
+                                    }
+
+                                }
+                                else
+                                    {
+                                        Log.i(TAG, "run: Timout occured for " + StartPlanActivity.slotsLabels[position]);
+                                        presentPosition++;
+                                        holder.progressBar.setProgress(holder.progressBar.getMax());
+                                        afterTimeOut.afterTimeOut();
+
+                                    }
+
+                            }
+                        });
                     }
                 });
+
                 break;
         }
 
     }
+
+
+
 
     @Override
     public int getItemCount() {
@@ -140,6 +213,7 @@ public class RecyclerAdap extends RecyclerView.Adapter<RecyclerAdap.viewholder> 
 
             case R.layout.recycler_layout_start_plan:
                 Log.i(TAG, "getItemCount: slots size is " + StartPlanActivity.slotslabelntime.size());
+                slotProgress = new int[StartPlanActivity.slotslabelntime.size()];
                 return StartPlanActivity.slotslabelntime.size();
 
         }
@@ -148,6 +222,9 @@ public class RecyclerAdap extends RecyclerView.Adapter<RecyclerAdap.viewholder> 
 
 
     }
+
+
+
 
     public class viewholder extends RecyclerView.ViewHolder
     {
